@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// AI based on unity NavMesh.
+/// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 public class AI : MonoBehaviour
 {
