@@ -7,11 +7,11 @@ public class LookAtCamera : MonoBehaviour
     CanvasGroup MyCG;
     private void Start()
     {
-        MyCG = transform.GetChild(0).GetComponent<CanvasGroup>();
+        transform.GetChild(0).TryGetComponent(out MyCG);
     }
     void Update()
     {
-        if(MyCG.alpha!=0)
+        if((MyCG && MyCG.alpha!=0) || (!MyCG))
             transform.LookAt(Camera.main.transform);       
     }
 }

@@ -20,7 +20,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] Slider MyHPSlider;
     CanvasGroup SliderCG;
 
-    [Tooltip("Health value between 0 and inf.")]
+    [Tooltip("Health value between 0 and large number.")]
     [Range(0, int.MaxValue/1.1f)]
     [SerializeField] int MaxHP=0;
     [Tooltip("Set speed of showing and hiding HP Slider.")]
@@ -83,7 +83,7 @@ public class EnemyBase : MonoBehaviour
         LastHitTime = 0;
         do {
             RememberPreviusHitTime = LastHitTime;
-            yield return new WaitForSecondsRealtime(HideDelay - (LastHitTime > 0 ? (Time.unscaledDeltaTime - LastHitTime) : 0));
+            yield return new WaitForSecondsRealtime(HideDelay - (LastHitTime > 0 ? (Time.realtimeSinceStartup - LastHitTime) : 0));
         } while (LastHitTime>RememberPreviusHitTime);
         while (SliderCG.alpha > 0)
         {

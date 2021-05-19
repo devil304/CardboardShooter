@@ -43,6 +43,7 @@ public class CardboardStartup : MonoBehaviour
     // Basic Cardboard functions.
     public void Update()
     {
+#if UNITY_ANDROID
         if (Api.IsGearButtonPressed)
         {
             Api.ScanDeviceParams();
@@ -59,5 +60,6 @@ public class CardboardStartup : MonoBehaviour
         }
 
         Api.UpdateScreenParams();
+#endif
     }
 }

@@ -15,9 +15,11 @@ public class Shoot : MonoBehaviour
     {
         //Shoot the enemy
         RaycastHit hit;
+#if UNITY_ANDROID
         if (Google.XR.Cardboard.Api.IsTriggerPressed && Physics.Raycast(transform.position, transform.forward, out hit, maxDistance) && hit.collider.gameObject.tag == "Enemy")
         {
             hit.collider.gameObject.SendMessage("Hit",DMG);
         }
+#endif
     }
 }
