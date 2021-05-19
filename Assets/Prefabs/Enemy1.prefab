@@ -1224,7 +1224,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1
-  m_Speed: 3.5
+  m_Speed: 4
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1365,6 +1365,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MyHPSlider: {fileID: 170489739}
   MaxHP: 100
-  DMG: 0
+  DMG: 25
   ShowHideSpeed: 1
   HideDelay: 3

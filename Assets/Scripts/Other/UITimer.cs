@@ -19,7 +19,7 @@ public class UITimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!Player.single.died)
+        if(Player.single && !Player.single.died)
             TimeToDisplay = Time.realtimeSinceStartup - StartTime;
         MyTMP.text = Prefix +"\n"+ Mathf.FloorToInt((TimeToDisplay) / 60) + ":" + String.Format("{0:00.00}", (TimeToDisplay) % 60) ;
     }

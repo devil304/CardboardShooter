@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     #region Variables
     public static Player single;
 
-    [HideInInspector]public int Score = 100;
+    [HideInInspector]public int Score;
     [SerializeField]TextMeshProUGUI ScoreText;
     [SerializeField] string ScorePrefix = "Score: ";
 
@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
     float s, v;
 
     GameObject LastHitedWeapon=null;
+    float StartProtectionTime = 3;
+    bool protect = true;
 
 #if UNITY_EDITOR
     [SerializeField] bool HitMyself=true;
@@ -38,19 +40,21 @@ public class Player : MonoBehaviour
     #region Unity Methods
     private void Awake()
     {
+        Time.timeScale = 1;
         if(!single)
             single = this;
     }
     // Start is called before the first frame update
     void Start()
     {
+        Score = 100;
         ActualHP = MaxHP;
         MyHPSlider.value = (float)ActualHP / MaxHP;
         HPBarFiller = MyHPSlider.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<Image>();
         float h;
         Color.RGBToHSV(HPBarFiller.color, out h, out s, out v);
         HPColorAtStart = h;
-        ActualWeapon = FindObjectOfType<WallLauncher>();
+        ActualWeapon = FindObjectOfType<Gun>();
 #if UNITY_EDITOR
         if(HitMyself)
             StartCoroutine(HitMe());
@@ -103,18 +107,9 @@ public class Player : MonoBehaviour
     }
 #endregion
 #region Other Methods
-#if UNITY_EDITOR
-    IEnumerator HitMe()
-    {
-        while (ActualHP > 0)
-        {
-            yield return new WaitForSecondsRealtime(0.5f);
-            Hit(1);
-        }
-    }
-#endif
     public void Hit(int val)
     {
+        Debug.Log("Hit");
         ActualHP -= val;
         ActualHP = ActualHP > MaxHP ? MaxHP : ActualHP;
         MyHPSlider.value = (float)ActualHP / MaxHP;
@@ -126,12 +121,29 @@ public class Player : MonoBehaviour
     {
         Time.timeScale = 0.001f;
         died = true;
+        StartCoroutine(WiatAndReload());
     }
     IEnumerator WiatAndReload()
     {
         yield return new WaitForSecondsRealtime(5);
         single = null;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        yield return null;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-#endregion
+#if UNITY_EDITOR
+    IEnumerator HitMe()
+    {
+        while (ActualHP > 0)
+        {
+            yield return new WaitForSecondsRealtime(0.5f);
+            Hit(1);
+        }
+    }
+#endif
+    IEnumerator StartProtection()
+    {
+        yield return new WaitForSecondsRealtime(StartProtectionTime);
+        protect = false;
+    }
+    #endregion
 }

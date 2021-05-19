@@ -24,7 +24,7 @@ public class UIFallowCamera : MonoBehaviour
         }
         if (rotate)
         {
-            ActualRotationSpeed = RotationSpeed * (AngleToCamera > MaxAngleBeforRotate/2 ? 10 * (AngleToCamera / 45) : 1);
+            ActualRotationSpeed = RotationSpeed * (AngleToCamera > MaxAngleBeforRotate/2 ? 10 * (AngleToCamera / 15) : 1);
             transform.localRotation = Quaternion.RotateTowards(transform.localRotation,Camera.main.transform.localRotation,Time.unscaledDeltaTime*ActualRotationSpeed);
             if (transform.localRotation == Camera.main.transform.localRotation)
             {

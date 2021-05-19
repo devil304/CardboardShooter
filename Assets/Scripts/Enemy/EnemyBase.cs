@@ -75,7 +75,11 @@ public class EnemyBase : MonoBehaviour
         if (!ShowingHP)
             StartCoroutine(ShowAndHide_CanvasGroup());
         if (ActualHP <= 0)
+        {
+            Player.single.Score += MaxHP / 4;
+            Player.single.Hit(-MaxHP / 10);
             Kill();
+        }
     }
 
     IEnumerator ShowAndHide_CanvasGroup()
@@ -107,7 +111,7 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void Kill()
     {
-        Player.single.Score += MaxHP/4;
+        SpawnEnemies.EnemiesSpawned--;
         //Start death animation (in shader) and destroy enemy
         MyNMA.isStopped = true;
         MyMaterial.SetFloat("_TriggerTime", Time.time);

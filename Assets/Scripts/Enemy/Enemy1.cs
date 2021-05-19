@@ -10,7 +10,6 @@ public class Enemy1 : EnemyBase
     {
         base.Start();
         MyNMA.SetDestination(Camera.main.transform.position);
-        DMG = 50;
     }
 
     // Update is called once per frame
