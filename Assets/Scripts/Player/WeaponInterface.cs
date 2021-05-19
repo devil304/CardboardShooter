@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface WeaponInterface
 {
+    public RaycastHit RHit { get; }
     public void Shoot();
-    public void Update();
+    public void UpdateFromPlayer();
 }

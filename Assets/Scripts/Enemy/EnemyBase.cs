@@ -68,6 +68,7 @@ public class EnemyBase : MonoBehaviour
     #region Other Methods
     public virtual void Hit(int val)
     {
+        Player.single.Score += ActualHP >= val ? val : ActualHP;
         ActualHP -= val;
         MyHPSlider.value = (float)ActualHP / MaxHP;
         LastHitTime = Time.realtimeSinceStartup;
@@ -106,6 +107,7 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void Kill()
     {
+        Player.single.Score += MaxHP/4;
         //Start death animation (in shader) and destroy enemy
         MyNMA.isStopped = true;
         MyMaterial.SetFloat("_TriggerTime", Time.time);

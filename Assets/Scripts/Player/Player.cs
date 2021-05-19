@@ -9,13 +9,14 @@ public class Player : MonoBehaviour
     #region Variables
     public static Player single;
 
-    [HideInInspector]public int Score = 0;
+    [HideInInspector]public int Score = 100;
     [SerializeField]TextMeshProUGUI ScoreText;
     [SerializeField] string ScorePrefix = "Score: ";
 
     [SerializeField] Slider MyHPSlider;
     Image HPBarFiller;
     float HPColorAtStart = 115;
+    [HideInInspector] public bool died = false;
 
     [Tooltip("Health value between 0 and large number.")]
     [Range(0, int.MaxValue / 1.1f)]
@@ -25,6 +26,8 @@ public class Player : MonoBehaviour
     WeaponInterface ActualWeapon;
 
     float s, v;
+
+    GameObject LastHitedWeapon=null;
 
 #if UNITY_EDITOR
     [SerializeField] bool HitMyself=true;
@@ -46,7 +49,7 @@ public class Player : MonoBehaviour
         float h;
         Color.RGBToHSV(HPBarFiller.color, out h, out s, out v);
         HPColorAtStart = h;
-        ActualWeapon = FindObjectOfType<Gun>();
+        ActualWeapon = FindObjectOfType<WallLauncher>();
 #if UNITY_EDITOR
         if(HitMyself)
             StartCoroutine(HitMe());
@@ -57,13 +60,37 @@ public class Player : MonoBehaviour
     void Update()
     {
         ScoreText.text = ScorePrefix + Score;
-        ActualWeapon.Update();
-#if UNITY_ANDROID
-        if (Google.XR.Cardboard.Api.IsTriggerPressed)
+        ActualWeapon.UpdateFromPlayer();
+        if(ActualWeapon.RHit.collider.tag == "Weapon")
         {
-            ActualWeapon.Shoot();
+            if(LastHitedWeapon!= ActualWeapon.RHit.collider.gameObject)
+            {
+                if (LastHitedWeapon)
+                    LastHitedWeapon.SendMessage("HideText");
+                LastHitedWeapon = ActualWeapon.RHit.collider.gameObject;
+            }
+            LastHitedWeapon.SendMessage("ShowText");
+        }else if (LastHitedWeapon)
+        {
+            LastHitedWeapon.SendMessage("HideText");
+            LastHitedWeapon = null;
         }
+
+        if (
+#if UNITY_ANDROID && !UNITY_EDITOR
+            Google.XR.Cardboard.Api.IsTriggerPressed
+#else
+            Input.GetMouseButtonDown(0)
 #endif
+            )
+        {
+            if (ActualWeapon.RHit.collider.tag == "Weapon")
+            {
+                ActualWeapon = ActualWeapon.RHit.collider.GetComponent<WeaponInterface>();
+            }else
+                ActualWeapon.Shoot();
+        }
+
     }
     //Display FPS counter in debug builds
     private void OnGUI()
@@ -73,8 +100,8 @@ public class Player : MonoBehaviour
             GUI.Label(new Rect(25, 25, 100, 20), (int)(1f / Time.unscaledDeltaTime) + " FPS");
         }
     }
-    #endregion
-    #region Other Methods
+#endregion
+#region Other Methods
 #if UNITY_EDITOR
     IEnumerator HitMe()
     {
@@ -95,7 +122,8 @@ public class Player : MonoBehaviour
     }
     void Kill()
     {
-
+        Time.timeScale = 0.001f;
+        died = true;
     }
-    #endregion
+#endregion
 }
