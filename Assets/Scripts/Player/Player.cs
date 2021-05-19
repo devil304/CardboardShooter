@@ -17,8 +17,8 @@ public class Player : MonoBehaviour
     /// </summary>
     public static Player single;
 
-    [HideInInspector]public int Score;
-    [SerializeField]TextMeshProUGUI ScoreText;
+    [HideInInspector] public int Score;
+    [SerializeField] TextMeshProUGUI ScoreText;
     [SerializeField] string ScorePrefix = "Score: ";
 
     [SerializeField] Slider MyHPSlider;
@@ -30,17 +30,19 @@ public class Player : MonoBehaviour
     [Range(0, int.MaxValue / 1.1f)]
     [SerializeField] int MaxHP = 100;
     int ActualHP;
-    
+
 
     WeaponInterface ActualWeapon;
 
     float s, v;
 
-    GameObject LastHitedWeapon=null;
+    GameObject LastHitedWeapon = null;
 
-    public AudioSource MySFXAudioSource;
+    [HideInInspector] public AudioSource MySFXAudioSource;
 
 #if UNITY_EDITOR
+    [SerializeField] float RotationSpeed=25;
+
     [SerializeField] bool HitMyself=true;
 #endif
 
@@ -67,15 +69,24 @@ public class Player : MonoBehaviour
 #if UNITY_EDITOR
         if(HitMyself)
             StartCoroutine(HitMe());
+        Cursor.lockState = CursorLockMode.Confined;
 #endif
     }
-
+#if UNITY_EDITOR
+    Vector2 lastMousePos = Vector2.zero;
+#endif
     // Update is called once per frame
     void Update()
     {
+#if UNITY_EDITOR
+        float x = RotationSpeed * Input.GetAxis("Mouse X");
+        float y = RotationSpeed * -Input.GetAxis("Mouse Y");
+        Camera.main.transform.Rotate(new Vector3(0, x*Time.unscaledDeltaTime, 0), Space.World);
+        Camera.main.transform.Rotate(new Vector3(y * Time.unscaledDeltaTime, 0, 0), Space.Self);
+#endif
         ScoreText.text = ScorePrefix + Score;
         ActualWeapon.UpdateFromPlayer();
-        if(ActualWeapon.RHit.collider.tag == "Weapon")
+        if(ActualWeapon.RHit.collider && ActualWeapon.RHit.collider.tag == "Weapon")
         {
             if(LastHitedWeapon!= ActualWeapon.RHit.collider.gameObject)
             {
@@ -98,7 +109,7 @@ public class Player : MonoBehaviour
 #endif
             )
         {
-            if (ActualWeapon.RHit.collider.tag == "Weapon")
+            if (ActualWeapon.RHit.collider && ActualWeapon.RHit.collider.tag == "Weapon")
             {
                 ActualWeapon = ActualWeapon.RHit.collider.GetComponent<WeaponInterface>();
             }else

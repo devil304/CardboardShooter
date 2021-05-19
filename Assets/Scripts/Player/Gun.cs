@@ -17,7 +17,7 @@ public class Gun : WeaponBase
             Player.single.MySFXAudioSource.PlayOneShot(SFX[Random.Range(0,SFX.Length)]);
             GameObject Spawned = Instantiate(SparksVFX,hit.point, Quaternion.LookRotation(hit.normal, Vector3.up));
             Destroy(Spawned, 1.5f);
-            if (hit.collider.tag == "Enemy" && Player.single.Score >= ShootingCost)
+            if (hit.collider.tag == "Enemy")
             {
                 hit.collider.gameObject.SendMessage("Hit", DMG + Player.single.Score / 1000);
             }

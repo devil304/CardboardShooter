@@ -2096,14 +2096,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 769752355}
-  m_LocalRotation: {x: 0.2816484, y: -0, z: -0, w: 0.95951766}
+  m_LocalRotation: {x: 0.2405877, y: -0.022359319, z: 0.0055437265, w: 0.970354}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 898727540}
   m_Father: {fileID: 951637200}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 32.717, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 27.85, y: -2.64, z: 0}
 --- !u!114 &769752359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3074,6 +3074,7 @@ MonoBehaviour:
   died: 0
   MaxHP: 100
   MySFXAudioSource: {fileID: 0}
+  RotationSpeed: 500
   HitMyself: 0
 --- !u!82 &951637205
 AudioSource:
@@ -6668,6 +6669,7 @@ MonoBehaviour:
   - {fileID: 1311742802}
   - {fileID: 24034702}
   EnemiesTypes:
+  - {fileID: 662163415089366277, guid: 64f1b5c4a08819b4494e3db23651f278, type: 3}
   - {fileID: 9104827462655572012, guid: 8d104b08b031bf84d800e8c4d26a9edb, type: 3}
 --- !u!1 &1962971197
 GameObject:

@@ -57,13 +57,8 @@ public class EnemyBase : MonoBehaviour
         ActualHP = MaxHP;
         MyHPSlider.value = 1f;
         SliderCG = MyHPSlider.GetComponent<CanvasGroup>();
+        MyNMA.SetDestination(Camera.main.transform.position);
     }
-#if UNITY_EDITOR
-    void OnMouseDown()
-    {
-        Hit(1);
-    }
-#endif
     #endregion
     #region Other Methods
     public virtual void Hit(int val)
@@ -104,9 +99,9 @@ public class EnemyBase : MonoBehaviour
         ShowingHP = false;
     }
 
-    protected virtual void HitPlayer(int dmg)
+    protected virtual void HitPlayer()
     {
-        Player.single.Hit(dmg);
+        Player.single.Hit(DMG);
     }
 
     protected virtual void Kill()
