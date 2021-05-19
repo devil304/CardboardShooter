@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -115,6 +116,7 @@ public class Player : MonoBehaviour
     public void Hit(int val)
     {
         ActualHP -= val;
+        ActualHP = ActualHP > MaxHP ? MaxHP : ActualHP;
         MyHPSlider.value = (float)ActualHP / MaxHP;
         HPBarFiller.color = Color.HSVToRGB(HPColorAtStart*((float)ActualHP / MaxHP),s,v);
         if (ActualHP <= 0)
@@ -124,6 +126,12 @@ public class Player : MonoBehaviour
     {
         Time.timeScale = 0.001f;
         died = true;
+    }
+    IEnumerator WiatAndReload()
+    {
+        yield return new WaitForSecondsRealtime(5);
+        single = null;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 #endregion
 }

@@ -17,8 +17,6 @@ public class WallLauncher : WeaponBase
             Vector3 WallPosForCalc = hit.point * 2;
             WallPosForCalc.y = hit.point.y;
             GameObject SpawnedWall = Instantiate(Wall,hit.point,Quaternion.LookRotation(WallPosForCalc,Vector3.up));
-
-            //SpawnedWall.transform.LookAt(WallPosForCalc);
         }
     }
 }
