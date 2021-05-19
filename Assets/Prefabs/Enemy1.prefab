@@ -1157,9 +1157,9 @@ GameObject:
   - component: {fileID: 8258389537655571839}
   - component: {fileID: 8258389537655571832}
   - component: {fileID: 8258389537655571833}
-  - component: {fileID: 8258389537655571834}
   - component: {fileID: 7945874237278820298}
   - component: {fileID: 5639181411373369421}
+  - component: {fileID: 438136874147293127}
   m_Layer: 0
   m_Name: Enemy1
   m_TagString: Enemy
@@ -1228,7 +1228,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -1236,22 +1236,6 @@ NavMeshAgent:
   m_BaseOffset: 2.6
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8258389537655571834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9104827462655572012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d00b541784f14848912ca02582957b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MyHPSlider: {fileID: 170489739}
-  MaxHP: 100
-  ShowHideSpeed: 1
-  HideDelay: 3
 --- !u!95 &7945874237278820298
 Animator:
   serializedVersion: 3
@@ -1367,3 +1351,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &438136874147293127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9104827462655572012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b84869e1317cde43bf19292c31360e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MyHPSlider: {fileID: 170489739}
+  MaxHP: 100
+  DMG: 0
+  ShowHideSpeed: 1
+  HideDelay: 3

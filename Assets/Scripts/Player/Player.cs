@@ -6,9 +6,10 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    #region Variables
     public static Player single;
-    [HideInInspector]public int Score = 0;
 
+    [HideInInspector]public int Score = 0;
     [SerializeField]TextMeshProUGUI ScoreText;
     [SerializeField] string ScorePrefix = "Score: ";
 
@@ -20,7 +21,17 @@ public class Player : MonoBehaviour
     [Range(0, int.MaxValue / 1.1f)]
     [SerializeField] int MaxHP = 100;
     int ActualHP;
+
+    WeaponInterface ActualWeapon;
+
     float s, v;
+
+#if UNITY_EDITOR
+    [SerializeField] bool HitMyself=true;
+#endif
+
+    #endregion
+    #region Unity Methods
     private void Awake()
     {
         if(!single)
@@ -35,14 +46,35 @@ public class Player : MonoBehaviour
         float h;
         Color.RGBToHSV(HPBarFiller.color, out h, out s, out v);
         HPColorAtStart = h;
-        StartCoroutine(HitMe());
+        ActualWeapon = FindObjectOfType<Gun>();
+#if UNITY_EDITOR
+        if(HitMyself)
+            StartCoroutine(HitMe());
+#endif
     }
 
     // Update is called once per frame
     void Update()
     {
         ScoreText.text = ScorePrefix + Score;
+        ActualWeapon.Update();
+#if UNITY_ANDROID
+        if (Google.XR.Cardboard.Api.IsTriggerPressed)
+        {
+            ActualWeapon.Shoot();
+        }
+#endif
     }
+    //Display FPS counter in debug builds
+    private void OnGUI()
+    {
+        if (Debug.isDebugBuild)
+        {
+            GUI.Label(new Rect(25, 25, 100, 20), (int)(1f / Time.unscaledDeltaTime) + " FPS");
+        }
+    }
+    #endregion
+    #region Other Methods
 #if UNITY_EDITOR
     IEnumerator HitMe()
     {
@@ -65,13 +97,5 @@ public class Player : MonoBehaviour
     {
 
     }
-
-    //Display FPS counter in debug builds
-    private void OnGUI()
-    {
-        if (Debug.isDebugBuild)
-        {
-            GUI.Label(new Rect(25, 25, 100, 20), (int)(1f / Time.unscaledDeltaTime) + " FPS");
-        }
-    }
+    #endregion
 }
