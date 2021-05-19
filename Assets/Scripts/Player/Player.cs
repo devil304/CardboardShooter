@@ -5,9 +5,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// Player script. Handles HP, UI and Weapons.
+/// </summary>
+[RequireComponent(typeof(AudioSource))]
 public class Player : MonoBehaviour
 {
     #region Variables
+    /// <summary>
+    /// Actual Player script instance.
+    /// </summary>
     public static Player single;
 
     [HideInInspector]public int Score;
@@ -23,14 +30,15 @@ public class Player : MonoBehaviour
     [Range(0, int.MaxValue / 1.1f)]
     [SerializeField] int MaxHP = 100;
     int ActualHP;
+    
 
     WeaponInterface ActualWeapon;
 
     float s, v;
 
     GameObject LastHitedWeapon=null;
-    float StartProtectionTime = 3;
-    bool protect = true;
+
+    public AudioSource MySFXAudioSource;
 
 #if UNITY_EDITOR
     [SerializeField] bool HitMyself=true;
@@ -47,6 +55,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        MySFXAudioSource = GetComponent<AudioSource>();
         Score = 100;
         ActualHP = MaxHP;
         MyHPSlider.value = (float)ActualHP / MaxHP;
@@ -109,7 +118,7 @@ public class Player : MonoBehaviour
 #region Other Methods
     public void Hit(int val)
     {
-        Debug.Log("Hit");
+        Debug.Log("Player hited");
         ActualHP -= val;
         ActualHP = ActualHP > MaxHP ? MaxHP : ActualHP;
         MyHPSlider.value = (float)ActualHP / MaxHP;
@@ -140,10 +149,5 @@ public class Player : MonoBehaviour
         }
     }
 #endif
-    IEnumerator StartProtection()
-    {
-        yield return new WaitForSecondsRealtime(StartProtectionTime);
-        protect = false;
-    }
     #endregion
 }

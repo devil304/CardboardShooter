@@ -22,6 +22,7 @@ public class WeaponBase : MonoBehaviour, WeaponInterface
     [ColorUsage(true, true)]
     [SerializeField] Color LaserColor=Color.red;
     [SerializeField] protected int ShootingCost = 10;
+    [SerializeField] protected AudioClip[] SFX;
 
     public RaycastHit RHit { get => hit; }
     #endregion

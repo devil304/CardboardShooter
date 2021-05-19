@@ -13,6 +13,7 @@ public class WallLauncher : WeaponBase
     {
         if (Physics.Raycast(TipOfTheGun.position, TipOfTheGun.forward, out hit, maxDistance) && hit.collider.tag == "Floor" && Player.single.Score >= ShootingCost + Player.single.Score / 1000)
         {
+            Player.single.MySFXAudioSource.PlayOneShot(SFX[Random.Range(0, SFX.Length)]);
             Player.single.Score -= ShootingCost + Player.single.Score / 1000;
             Vector3 WallPosForCalc = hit.point * 2;
             WallPosForCalc.y = hit.point.y;
