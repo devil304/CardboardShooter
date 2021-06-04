@@ -1,5 +1,3 @@
-# 4ECardboardShooter
-Cardboard Shooter made in Unity. Test task for 4Experience.
 How to use in Unity:
 Run scene Assets/Scenes/Main
 Look around with a mouse and shoot using LMB;
